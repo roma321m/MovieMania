@@ -1,5 +1,6 @@
 package com.roman.moviemania.core.data.network
 
+import android.util.Log
 import com.roman.moviemania.core.data.dto.ConfigurationResponseDto
 import com.roman.moviemania.core.data.network.utils.constructUrl
 import com.roman.moviemania.core.data.network.utils.safeCall
@@ -12,7 +13,13 @@ class RemoteConfigurationDataSourceImpl(
     private val httpClient: HttpClient,
 ) : RemoteConfigurationDataSource {
 
+    companion object {
+        private const val TAG = "RemoteConfigurationDataSource"
+    }
+
     override suspend fun getConfigDetails(): Result<ConfigurationResponseDto, DataError.Network> {
+        Log.d(TAG, "getConfigDetails")
+
         return safeCall<ConfigurationResponseDto> {
             httpClient.get(
                 urlString = constructUrl("/3/configuration")

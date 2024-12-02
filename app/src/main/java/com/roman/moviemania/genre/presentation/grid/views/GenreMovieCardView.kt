@@ -21,8 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.roman.moviemania.app.ui.theme.MovieManiaTheme
+import com.roman.moviemania.core.domain.model.Movie
 import com.roman.moviemania.core.presentation.components.AsyncImageView
-import com.roman.moviemania.genre.domain.Movie
 
 @Composable
 fun GenreMovieCardView(
@@ -99,6 +99,10 @@ fun GenreMovieCardViewPreview() {
                     voteAverage = 7f,
                     releaseDate = "2023",
                     posterPath = "https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                    backdropPath = "https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                    genreIds = listOf(1, 2, 3),
+                    originalTitle = "Original Title 1",
+                    video = false,
                 )
             )
         }

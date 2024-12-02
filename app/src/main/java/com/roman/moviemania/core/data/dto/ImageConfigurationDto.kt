@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ImageDto(
+data class ImageConfigurationDto(
     @SerialName("base_url") val baseUrl: String,
     @SerialName("secure_base_url") val secureBaseUrl: String,
     @SerialName("backdrop_sizes") val backdropSizes: List<String>,

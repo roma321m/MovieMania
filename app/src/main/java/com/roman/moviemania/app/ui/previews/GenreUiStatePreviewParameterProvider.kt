@@ -1,8 +1,8 @@
 package com.roman.moviemania.app.ui.previews
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.roman.moviemania.genre.domain.Genre
-import com.roman.moviemania.genre.domain.Movie
+import com.roman.moviemania.core.domain.model.Movie
+import com.roman.moviemania.genre.domain.model.Genre
 import com.roman.moviemania.genre.presentation.GenreUiState
 
 class GenreUiStatePreviewParameterProvider : PreviewParameterProvider<GenreUiState> {
@@ -28,6 +28,10 @@ class GenreUiStatePreviewParameterProvider : PreviewParameterProvider<GenreUiSta
             popularity = 7.5f,
             originalLanguage = "en",
             adult = false,
+            genreIds = listOf(1, 2, 3),
+            originalTitle = "Original Title $it",
+            video = false,
+            backdropPath = "https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
         )
     }
 

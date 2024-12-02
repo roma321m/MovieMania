@@ -1,4 +1,4 @@
-package com.roman.moviemania.genre.domain
+package com.roman.moviemania.genre.domain.model
 
 data class Genre(
     val id: Int,

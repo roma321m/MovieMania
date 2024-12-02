@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ConfigurationResponseDto(
-    val images: ImageDto,
+    val images: ImageConfigurationDto,
     @SerialName("change_keys") val changeKeys: List<String>
 )

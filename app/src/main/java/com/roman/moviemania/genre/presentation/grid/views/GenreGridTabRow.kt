@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.roman.moviemania.app.ui.theme.MovieManiaTheme
-import com.roman.moviemania.genre.domain.Genre
+import com.roman.moviemania.genre.domain.model.Genre
 
 
 @Composable

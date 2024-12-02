@@ -1,4 +1,4 @@
-package com.roman.moviemania.genre.domain
+package com.roman.moviemania.core.domain.model
 
 data class Movie(
     val id: Int,
@@ -11,4 +11,8 @@ data class Movie(
     val voteAverage: Float,
     val releaseDate: String,
     val posterPath: String,
+    val backdropPath: String,
+    val genreIds: List<Int>,
+    val originalTitle: String,
+    val video: Boolean,
 )

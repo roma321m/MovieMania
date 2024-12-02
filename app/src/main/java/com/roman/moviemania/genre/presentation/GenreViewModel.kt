@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.roman.moviemania.core.domain.model.Movie
 import com.roman.moviemania.core.domain.utils.onError
 import com.roman.moviemania.core.domain.utils.onSuccess
-import com.roman.moviemania.genre.domain.Genre
-import com.roman.moviemania.genre.domain.GenreRepository
-import com.roman.moviemania.genre.domain.Movie
+import com.roman.moviemania.genre.domain.model.Genre
+import com.roman.moviemania.genre.domain.repository.GenreRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
