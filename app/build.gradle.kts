@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -20,8 +22,11 @@ android {
     }
 
     buildTypes {
+        val apiKey = gradleLocalProperties(rootDir, rootProject.providers).getProperty("API_KEY")
         debug {
             isMinifyEnabled = false
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+            buildConfigField("String", "BASE_URL", "\"https://developer.themoviedb.org\"")
         }
         release {
             isMinifyEnabled = true
@@ -29,6 +34,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+            buildConfigField("String", "BASE_URL", "\"https://developer.themoviedb.org\"")
         }
     }
     compileOptions {
