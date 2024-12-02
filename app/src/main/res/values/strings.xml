@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">MovieMania</string>
+    <!--  Explore Screen  -->
+    <string name="explore_title">Explore</string>
+
+    <!--  Genre Screen  -->
+    <string name="genre_title">Genres</string>
+    <string name="genre_fab_search">Search</string>
+
+    <!--  Top bar  -->
+    <string name="top_bar_action_sort">Sort</string>
+    <string name="top_bar_action_more">More</string>
 
     <!--  Error messages  -->
     <string name="error_no_storage_access">The application has no storage access.</string>

@@ -76,6 +76,8 @@ dependencies {
     implementation(libs.bundles.koin)
     // ktor
     implementation(libs.bundles.ktor)
+    // coil
+    implementation(libs.bundles.coil)
 
     // Tests
     testImplementation(libs.junit)

@@ -1,5 +1,8 @@
 package com.roman.moviemania.app.ui.theme.colors
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF006992) // Blue
@@ -66,3 +69,15 @@ val md_theme_dark_outlineVariant = Color(0xFF43474E) // Darker gray
 val md_theme_dark_scrim = Color(0xFF000000)
 
 val seed = Color(0xFF006992) // Base the seed on the primary blue
+
+val ColorScheme.rateGreen: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) Color(0xFF127217) else Color(0xFF4CAF50)
+
+val ColorScheme.rateRed: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) Color(0xFF721212) else Color(0xFFF44336)
+
+val ColorScheme.rateOrange: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) Color(0xFF725212) else Color(0xFFFF9800)
