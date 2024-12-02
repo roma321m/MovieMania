@@ -1,7 +1,7 @@
 package com.roman.moviemania.genre.data.network
 
-import com.roman.moviemania.core.data.network.constructUrl
-import com.roman.moviemania.core.data.network.safeCall
+import com.roman.moviemania.core.data.network.utils.constructUrl
+import com.roman.moviemania.core.data.network.utils.safeCall
 import com.roman.moviemania.core.domain.utils.DataError
 import com.roman.moviemania.core.domain.utils.Result
 import com.roman.moviemania.genre.data.dto.MovieListResponseDto

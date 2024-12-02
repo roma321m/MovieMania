@@ -1,4 +1,4 @@
-package com.roman.moviemania.core.data.network
+package com.roman.moviemania.core.data.network.utils
 
 import com.roman.moviemania.core.domain.utils.DataError
 import com.roman.moviemania.core.domain.utils.Result

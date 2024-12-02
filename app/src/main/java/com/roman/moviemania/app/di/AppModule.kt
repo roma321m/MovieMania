@@ -1,6 +1,6 @@
 package com.roman.moviemania.app.di
 
-import com.roman.moviemania.core.data.network.HttpClientFactory
+import com.roman.moviemania.core.data.network.utils.HttpClientFactory
 import com.roman.moviemania.genre.data.network.RemoteGenreDataSource
 import com.roman.moviemania.genre.data.network.RemoteGenreDataSourceImpl
 import com.roman.moviemania.genre.data.repository.GenreRepositoryImpl
