@@ -23,10 +23,15 @@ android {
 
     buildTypes {
         val apiKey = gradleLocalProperties(rootDir, rootProject.providers).getProperty("API_KEY")
+        val apiReadAccessToken = gradleLocalProperties(
+            rootDir,
+            rootProject.providers
+        ).getProperty("API_READ_ACCESS_TOKEN")
         debug {
             isMinifyEnabled = false
             buildConfigField("String", "API_KEY", "\"$apiKey\"")
-            buildConfigField("String", "BASE_URL", "\"https://developer.themoviedb.org\"")
+            buildConfigField("String", "API_READ_ACCESS_TOKEN", "\"$apiReadAccessToken\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/\"")
         }
         release {
             isMinifyEnabled = true
@@ -35,7 +40,8 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "API_KEY", "\"$apiKey\"")
-            buildConfigField("String", "BASE_URL", "\"https://developer.themoviedb.org\"")
+            buildConfigField("String", "API_READ_ACCESS_TOKEN", "\"$apiReadAccessToken\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/\"")
         }
     }
     compileOptions {

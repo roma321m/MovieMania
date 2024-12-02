@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.roman.moviemania.app.navigation.NavigationBarDefaults
@@ -16,6 +15,7 @@ import com.roman.moviemania.core.presentation.components.bottombar.BottomBarView
 import com.roman.moviemania.genre.presentation.GenreEvents
 import com.roman.moviemania.genre.presentation.GenreViewModel
 import com.roman.moviemania.genre.presentation.grid.GenreGridScreen
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -27,9 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MovieManiaTheme {
                 // Fixme - temp for UI implementation testing
-                val viewModel = remember {
-                    GenreViewModel()
-                }
+                val viewModel = koinViewModel<GenreViewModel>()
                 val state by viewModel.uiState.collectAsStateWithLifecycle()
                 LocalLifecycleOwner.current.lifecycle.Observe(viewModel::onLifecycleEvent)
 
