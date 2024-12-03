@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.roman.moviemania.app.navigation.AppNavigation
 import com.roman.moviemania.app.navigation.Navigator
 import com.roman.moviemania.app.presentation.AppAction
@@ -29,6 +30,13 @@ class MainActivity : ComponentActivity() {
         Log.d(TAG, "onCreate")
 
         enableEdgeToEdge()
+
+        installSplashScreen()
+            .apply {
+                setKeepOnScreenCondition {
+                    appViewModel.isLoading
+                }
+            }
 
         setContent {
             MovieManiaTheme {
