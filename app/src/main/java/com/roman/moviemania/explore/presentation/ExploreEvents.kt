@@ -4,4 +4,5 @@ import com.roman.moviemania.core.domain.utils.DataError
 
 sealed interface ExploreEvents {
     data class Error(val error: DataError.Network) : ExploreEvents
+    data object About : ExploreEvents
 }

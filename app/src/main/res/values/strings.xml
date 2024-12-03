@@ -19,6 +19,7 @@
     <string name="top_bar_sort_menu_revenue">Revenue</string>
     <string name="top_bar_sort_menu_release_date">Release Date</string>
     <string name="top_bar_sort_menu_vote">Vote Average</string>
+    <string name="top_bar_search">Search</string>
 
     <string name="about_message">Movie Mania Created By Roman.M</string>
 
