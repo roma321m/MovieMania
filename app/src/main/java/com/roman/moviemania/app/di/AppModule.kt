@@ -3,6 +3,7 @@ package com.roman.moviemania.app.di
 import com.roman.moviemania.app.navigation.MainNavigator
 import com.roman.moviemania.app.navigation.Navigator
 import com.roman.moviemania.app.navigation.routes.Route
+import com.roman.moviemania.app.presentation.AppViewModel
 import com.roman.moviemania.core.data.network.RemoteConfigurationDataSource
 import com.roman.moviemania.core.data.network.RemoteConfigurationDataSourceImpl
 import com.roman.moviemania.core.data.network.RemoteDiscoverDataSource
@@ -12,6 +13,7 @@ import com.roman.moviemania.core.data.repository.ConfigurationRepositoryImpl
 import com.roman.moviemania.core.data.repository.DiscoverRepositoryImpl
 import com.roman.moviemania.core.domain.repository.ConfigurationRepository
 import com.roman.moviemania.core.domain.repository.DiscoverRepository
+import com.roman.moviemania.explore.presentation.ExploreViewModel
 import com.roman.moviemania.genre.data.network.RemoteGenreDataSource
 import com.roman.moviemania.genre.data.network.RemoteGenreDataSourceImpl
 import com.roman.moviemania.genre.data.repository.GenreRepositoryImpl
@@ -25,7 +27,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     single { HttpClientFactory.create(engine = CIO.create()) }
-    single { MainNavigator(startDestination = Route.Genre) }.bind<Navigator>()
+    single { MainNavigator(startDestination = Route.Explore) }.bind<Navigator>()
 
     singleOf(::RemoteGenreDataSourceImpl).bind<RemoteGenreDataSource>()
     singleOf(::RemoteConfigurationDataSourceImpl).bind<RemoteConfigurationDataSource>()
@@ -36,4 +38,6 @@ val appModule = module {
     singleOf(::DiscoverRepositoryImpl).bind<DiscoverRepository>()
 
     viewModelOf(::GenreViewModel)
+    viewModelOf(::ExploreViewModel)
+    viewModelOf(::AppViewModel)
 }

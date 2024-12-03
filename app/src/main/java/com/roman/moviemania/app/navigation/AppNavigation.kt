@@ -12,7 +12,8 @@ import com.roman.moviemania.core.presentation.ObserveAsEvents
 @Composable
 fun AppNavigation(
     navigator: Navigator,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigationBar: @Composable () -> Unit = {},
 ) {
     val navController = rememberNavController()
 
@@ -30,8 +31,8 @@ fun AppNavigation(
         navController = navController,
         startDestination = navigator.startDestination,
     ) {
-        exploreComposable()
-        genreComposable()
+        exploreComposable(navigationBar)
+        genreComposable(navigationBar)
     }
 
 }

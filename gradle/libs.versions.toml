@@ -1,6 +1,6 @@
 [versions]
 activityCompose = "1.9.3"
-agp = "8.7.2"
+agp = "8.7.3"
 coil3 = "3.0.3"
 composeBom = "2024.11.00"
 compose-material-icons-extended = "1.7.5"

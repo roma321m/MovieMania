@@ -1,28 +1,48 @@
 package com.roman.moviemania.app.navigation.routes
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import android.widget.Toast
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.roman.moviemania.core.presentation.Observe
+import com.roman.moviemania.core.presentation.ObserveAsEvents
+import com.roman.moviemania.core.presentation.utils.asUiText
+import com.roman.moviemania.explore.presentation.ExploreEvents
+import com.roman.moviemania.explore.presentation.ExploreScreen
+import com.roman.moviemania.explore.presentation.ExploreViewModel
+import org.koin.androidx.compose.koinViewModel
 
 
-fun NavGraphBuilder.exploreComposable() {
+fun NavGraphBuilder.exploreComposable(
+    navigationBar: @Composable () -> Unit
+) {
     composable<Route.Explore> {
-        // TODO: ExploreScreen()
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Red)
-        ) {
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = "Explore Screen"
-            )
+        val context = LocalContext.current
+        val viewModel = koinViewModel<ExploreViewModel>()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+        LocalLifecycleOwner.current.lifecycle.Observe(viewModel::onLifecycleEvent)
+
+        ObserveAsEvents(viewModel.events) { event ->
+            when (event) {
+                is ExploreEvents.Error -> {
+                    Toast.makeText(
+                        context,
+                        event.error.asUiText().asString(context),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
+
+        ExploreScreen(
+            uiState = uiState,
+            onAction = viewModel::onAction,
+            navigationBar = navigationBar
+        )
     }
 }
