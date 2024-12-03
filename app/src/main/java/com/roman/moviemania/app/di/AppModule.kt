@@ -1,5 +1,8 @@
 package com.roman.moviemania.app.di
 
+import com.roman.moviemania.app.navigation.MainNavigator
+import com.roman.moviemania.app.navigation.Navigator
+import com.roman.moviemania.app.navigation.routes.Route
 import com.roman.moviemania.core.data.network.RemoteConfigurationDataSource
 import com.roman.moviemania.core.data.network.RemoteConfigurationDataSourceImpl
 import com.roman.moviemania.core.data.network.RemoteDiscoverDataSource
@@ -22,6 +25,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     single { HttpClientFactory.create(engine = CIO.create()) }
+    single { MainNavigator(startDestination = Route.Genre) }.bind<Navigator>()
 
     singleOf(::RemoteGenreDataSourceImpl).bind<RemoteGenreDataSource>()
     singleOf(::RemoteConfigurationDataSourceImpl).bind<RemoteConfigurationDataSource>()

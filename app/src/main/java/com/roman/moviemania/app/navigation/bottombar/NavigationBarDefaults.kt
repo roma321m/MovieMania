@@ -1,4 +1,4 @@
-package com.roman.moviemania.app.navigation
+package com.roman.moviemania.app.navigation.bottombar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Category
