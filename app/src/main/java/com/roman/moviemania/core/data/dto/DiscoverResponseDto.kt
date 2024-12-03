@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DiscoverResponseDto(
     val page: Int,
-    val results: List<MovieDto>,
+    val results: List<MovieDto>? = null,
     @SerialName("total_pages") val totalPages: Int,
     @SerialName("total_results") val totalResults: Int,
 )

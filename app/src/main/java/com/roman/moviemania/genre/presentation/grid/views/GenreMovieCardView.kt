@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.roman.moviemania.app.ui.theme.MovieManiaTheme
@@ -77,6 +78,8 @@ fun GenreMovieCardView(
             },
             style = MaterialTheme.typography.titleSmall,
             maxLines = 2,
+            minLines = 2,
+            overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center
         )
     }

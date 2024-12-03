@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MovieListResponseDto(
-    val genres: List<GenreDto>,
+    val genres: List<GenreDto>? = null,
 )

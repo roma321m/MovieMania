@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MovieMania.Splash" parent="Theme.SplashScreen.IconBackground">
+    <style name="Theme.MovieMania.Splash" parent="Theme.MovieMania">
         <item name="windowSplashScreenBackground">#F8FDFF</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="windowSplashScreenIconBackgroundColor">#006992</item>

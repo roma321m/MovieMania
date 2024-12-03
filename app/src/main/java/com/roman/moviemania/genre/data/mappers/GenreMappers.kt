@@ -6,6 +6,6 @@ import com.roman.moviemania.genre.domain.model.Genre
 fun GenreDto.toGenre(): Genre {
     return Genre(
         id = id,
-        name = name
+        name = name ?: ""
     )
 }

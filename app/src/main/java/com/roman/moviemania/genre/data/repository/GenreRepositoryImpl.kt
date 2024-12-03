@@ -25,9 +25,9 @@ class GenreRepositoryImpl(
         return remoteGenreDataSource
             .getGenres(language)
             .map { responseDto ->
-                responseDto.genres.map { dto ->
+                responseDto.genres?.map { dto ->
                     dto.toGenre()
-                }
+                } ?: emptyList()
             }
     }
 

@@ -9,22 +9,22 @@ fun MovieDto.toMovie(
 ): Movie {
     val posterPath = config?.secureBaseUrl + config?.posterSizes?.last() + posterPath
     val backdropPath = config?.secureBaseUrl + config?.backdropSizes?.last() + backdropPath
-    val releaseDate = releaseDate.split("-").first()
+    val releaseDate = releaseDate?.split("-")?.first() ?: ""
 
     return Movie(
         id = id,
-        title = title,
-        overview = overview,
+        title = title ?: "",
+        overview = overview ?: "",
         adult = adult,
-        originalLanguage = originalLanguage,
+        originalLanguage = originalLanguage ?: "",
         popularity = popularity,
         voteCount = voteCount,
         voteAverage = voteAverage,
         releaseDate = releaseDate,
         posterPath = posterPath,
         backdropPath = backdropPath,
-        genreIds = genreIds,
-        originalTitle = originalTitle,
+        genreIds = genreIds ?: emptyList(),
+        originalTitle = originalTitle ?: "",
         video = video,
     )
 }
