@@ -4,12 +4,19 @@
     <string name="explore_title">Explore</string>
 
     <!--  Genre Screen  -->
-    <string name="genre_title">Genres</string>
+    <string name="genre_top_bar_title">Movie Mania</string>
     <string name="genre_fab_search">Search</string>
 
     <!--  Top bar  -->
     <string name="top_bar_action_sort">Sort</string>
     <string name="top_bar_action_more">More</string>
+    <string name="top_bar_more_menu_privacy_policy">Privacy Policy</string>
+    <string name="top_bar_more_menu_terms_and_conditions">Terms and Conditions</string>
+    <string name="top_bar_more_menu_about">About</string>
+    <string name="top_bar_sort_menu_popularity">Popularity</string>
+    <string name="top_bar_sort_menu_revenue">Revenue</string>
+    <string name="top_bar_sort_menu_release_date">Release Date</string>
+    <string name="top_bar_sort_menu_vote">Vote Average</string>
 
     <!--  Error messages  -->
     <string name="error_no_storage_access">The application has no storage access.</string>

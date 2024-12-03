@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.roman.moviemania.core.domain.model.DiscoverSortOptions
 import com.roman.moviemania.core.domain.model.ImageConfiguration
 import com.roman.moviemania.core.domain.model.Movie
 import com.roman.moviemania.core.domain.repository.ConfigurationRepository
@@ -63,6 +64,69 @@ class GenreViewModel(
             is GenreAction.OnGenreSelected -> selectGenre(action.genre)
             is GenreAction.OnMovieSelected -> selectMovie(action.movie)
             GenreAction.OnSearchFabClick -> fabClick()
+            is GenreAction.OnMoreActionClick -> onMoreActionClick(action.expanded)
+            GenreAction.OnPrivacyPolicyClick -> onPrivacyPolicyClick()
+            GenreAction.OnTermsAndConditionsClick -> onTermsClick()
+            GenreAction.OnAboutClicked -> onAboutClick()
+            is GenreAction.OnSortActionClick -> onSortActionClick(action.expanded)
+            is GenreAction.OnSortOptionClick -> onSortOptionClick(action.sort)
+        }
+    }
+
+    private fun onMoreActionClick(expanded: Boolean) {
+        Log.d(TAG, "onMoreActionClick: $expanded")
+
+        _uiState.update {
+            it.copy(showMoreMenu = expanded)
+        }
+    }
+
+    private fun onPrivacyPolicyClick() {
+        Log.d(TAG, "onPrivacyPolicyClick")
+
+        _uiState.update {
+            it.copy(showMoreMenu = false)
+        }
+        // todo - launch privacy policy screen
+    }
+
+    private fun onTermsClick() {
+        Log.d(TAG, "onTermsClick")
+
+        _uiState.update {
+            it.copy(showMoreMenu = false)
+        }
+        // todo - launch terms screen
+    }
+
+    private fun onAboutClick() {
+        Log.d(TAG, "onAboutClick")
+
+        _uiState.update {
+            it.copy(showMoreMenu = false)
+        }
+        // todo - launch about screen
+    }
+
+    private fun onSortActionClick(expanded: Boolean) {
+        Log.d(TAG, "onSortActionClick: $expanded")
+
+        _uiState.update {
+            it.copy(showSortMenu = expanded)
+        }
+    }
+
+    private fun onSortOptionClick(sort: DiscoverSortOptions) {
+        Log.d(TAG, "onSortOptionClick: $sort")
+
+        if (sort != _uiState.value.sortBy) {
+            _uiState.value.selectedGenre?.let { loadMovies(it) }
+        }
+        _uiState.update {
+            it.copy(
+                showSortMenu = false,
+                sortBy = sort
+            )
         }
     }
 
@@ -125,9 +189,10 @@ class GenreViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             discoverRepository
                 .getDiscoverMovieByGenre(
-                    imageConfiguration,
-                    1,
-                    genre.id
+                    imageConfiguration = imageConfiguration,
+                    page = 1, // fixme - add pagination
+                    genreId = genre.id,
+                    sort = _uiState.value.sortBy
                 ).onSuccess { movies ->
                     Log.d(TAG, "loadMovies: $movies")
                     _uiState.update { state ->

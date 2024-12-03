@@ -20,7 +20,7 @@ object NavigationBarDefaults {
         ),
         BottomBarItemModel(
             route = Route.Genre,
-            title = R.string.genre_title,
+            title = R.string.genre_top_bar_title,
             selectedIcon = Icons.Filled.Category,
             unselectedIcon = Icons.Outlined.Category,
         ),

@@ -1,4 +1,4 @@
-package com.roman.moviemania.genre.presentation.grid.views
+package com.roman.moviemania.explore.presentation.views
 
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.material.icons.Icons
@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import com.roman.moviemania.R
 
 @Composable
-fun GenreFabView(
+fun ExploreFabView(
     onFabClick: () -> Unit,
     scrollState: LazyGridState,
     modifier: Modifier = Modifier

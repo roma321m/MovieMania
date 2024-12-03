@@ -19,9 +19,8 @@ import com.roman.moviemania.app.ui.theme.MovieManiaTheme
 import com.roman.moviemania.core.presentation.components.LoadingView
 import com.roman.moviemania.genre.presentation.GenreAction
 import com.roman.moviemania.genre.presentation.GenreUiState
-import com.roman.moviemania.genre.presentation.grid.views.GenreFabView
 import com.roman.moviemania.genre.presentation.grid.views.GenreGridContent
-import com.roman.moviemania.genre.presentation.grid.views.GenreTopBarView
+import com.roman.moviemania.genre.presentation.grid.views.topbar.GenreTopBarView
 
 @Composable
 fun GenreGridScreen(
@@ -39,15 +38,8 @@ fun GenreGridScreen(
         topBar = {
             GenreTopBarView(
                 scrollBehavior = topBarScrollBehavior,
+                uiState = uiState,
                 onAction = onAction
-            )
-        },
-        floatingActionButton = {
-            GenreFabView(
-                onFabClick = {
-                    onAction(GenreAction.OnSearchFabClick)
-                },
-                scrollState = lazyGridState
             )
         },
         bottomBar = {
