@@ -18,6 +18,8 @@
     <string name="top_bar_sort_menu_release_date">Release Date</string>
     <string name="top_bar_sort_menu_vote">Vote Average</string>
 
+    <string name="about_message">Movie Mania Created By Roman.M</string>
+
     <!--  Error messages  -->
     <string name="error_no_storage_access">The application has no storage access.</string>
     <string name="error_no_storage_space">No storage space available on the device</string>

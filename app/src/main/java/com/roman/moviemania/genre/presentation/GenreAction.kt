@@ -5,7 +5,6 @@ import com.roman.moviemania.core.domain.model.Movie
 import com.roman.moviemania.genre.domain.model.Genre
 
 sealed interface GenreAction {
-    data object OnSearchFabClick : GenreAction
     data class OnMoreActionClick(val expanded: Boolean) : GenreAction
     data object OnPrivacyPolicyClick : GenreAction
     data object OnTermsAndConditionsClick : GenreAction

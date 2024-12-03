@@ -1,5 +1,6 @@
 package com.roman.moviemania.app.di
 
+import com.roman.moviemania.app.launcher.ActivityLauncher
 import com.roman.moviemania.app.navigation.MainNavigator
 import com.roman.moviemania.app.navigation.Navigator
 import com.roman.moviemania.app.navigation.routes.Route
@@ -28,6 +29,7 @@ import org.koin.dsl.module
 val appModule = module {
     single { HttpClientFactory.create(engine = CIO.create()) }
     single { MainNavigator(startDestination = Route.Explore) }.bind<Navigator>()
+    singleOf(::ActivityLauncher)
 
     singleOf(::RemoteGenreDataSourceImpl).bind<RemoteGenreDataSource>()
     singleOf(::RemoteConfigurationDataSourceImpl).bind<RemoteConfigurationDataSource>()

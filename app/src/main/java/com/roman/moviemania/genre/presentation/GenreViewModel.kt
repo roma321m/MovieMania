@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.roman.moviemania.app.launcher.ActivityLauncher
 import com.roman.moviemania.core.domain.model.DiscoverSortOptions
 import com.roman.moviemania.core.domain.model.ImageConfiguration
 import com.roman.moviemania.core.domain.model.Movie
@@ -26,7 +27,8 @@ import kotlinx.coroutines.launch
 class GenreViewModel(
     private val genreRepository: GenreRepository,
     private val discoverRepository: DiscoverRepository,
-    private val configRepository: ConfigurationRepository
+    private val configRepository: ConfigurationRepository,
+    private val activityLauncher: ActivityLauncher
 ) : ViewModel() {
 
     companion object {
@@ -63,7 +65,6 @@ class GenreViewModel(
         when (action) {
             is GenreAction.OnGenreSelected -> selectGenre(action.genre)
             is GenreAction.OnMovieSelected -> selectMovie(action.movie)
-            GenreAction.OnSearchFabClick -> fabClick()
             is GenreAction.OnMoreActionClick -> onMoreActionClick(action.expanded)
             GenreAction.OnPrivacyPolicyClick -> onPrivacyPolicyClick()
             GenreAction.OnTermsAndConditionsClick -> onTermsClick()
@@ -87,7 +88,7 @@ class GenreViewModel(
         _uiState.update {
             it.copy(showMoreMenu = false)
         }
-        // todo - launch privacy policy screen
+        activityLauncher.launchPrivacyPolicy()
     }
 
     private fun onTermsClick() {
@@ -96,7 +97,7 @@ class GenreViewModel(
         _uiState.update {
             it.copy(showMoreMenu = false)
         }
-        // todo - launch terms screen
+        activityLauncher.launchTermsAndConditions()
     }
 
     private fun onAboutClick() {
@@ -105,7 +106,9 @@ class GenreViewModel(
         _uiState.update {
             it.copy(showMoreMenu = false)
         }
-        // todo - launch about screen
+        viewModelScope.launch {
+            _events.send(GenreEvents.About)
+        }
     }
 
     private fun onSortActionClick(expanded: Boolean) {
@@ -142,12 +145,6 @@ class GenreViewModel(
 
     private fun selectMovie(movie: Movie) {
         Log.d(TAG, "selectMovie: $movie")
-
-        // todo
-    }
-
-    private fun fabClick() {
-        Log.d(TAG, "fabClick")
 
         // todo
     }
