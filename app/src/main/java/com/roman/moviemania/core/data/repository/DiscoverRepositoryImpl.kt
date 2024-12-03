@@ -3,6 +3,7 @@ package com.roman.moviemania.core.data.repository
 import android.util.Log
 import com.roman.moviemania.core.data.mappers.toMovie
 import com.roman.moviemania.core.data.network.RemoteDiscoverDataSource
+import com.roman.moviemania.core.domain.model.ImageConfiguration
 import com.roman.moviemania.core.domain.model.Movie
 import com.roman.moviemania.core.domain.repository.DiscoverRepository
 import com.roman.moviemania.core.domain.utils.DataError
@@ -19,6 +20,7 @@ class DiscoverRepositoryImpl(
     }
 
     override suspend fun getDiscoverMovieByGenre(
+        imageConfiguration: ImageConfiguration?,
         page: Int,
         genreId: Int
     ): Result<List<Movie>, DataError.Network> {
@@ -28,7 +30,7 @@ class DiscoverRepositoryImpl(
             .getMoviesByGenre(page, genreId)
             .map { discoverResponseDto ->
                 discoverResponseDto.results.map { movieDto ->
-                    movieDto.toMovie()
+                    movieDto.toMovie(imageConfiguration)
                 }
             }
     }
