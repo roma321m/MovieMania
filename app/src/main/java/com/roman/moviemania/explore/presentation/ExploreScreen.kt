@@ -3,17 +3,20 @@
 package com.roman.moviemania.explore.presentation
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.roman.moviemania.app.ui.previews.ExploreUiStatePreviewParameterProvider
+import com.roman.moviemania.app.ui.theme.MovieManiaTheme
+import com.roman.moviemania.core.presentation.components.LoadingView
+import com.roman.moviemania.explore.presentation.views.ExploreContentView
 import com.roman.moviemania.explore.presentation.views.ExploreFabView
 import com.roman.moviemania.explore.presentation.views.topbar.ExploreTopBarView
 
@@ -24,7 +27,7 @@ fun ExploreScreen(
     navigationBar: @Composable () -> Unit = {},
 ) {
     val topBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    val scrollState = rememberLazyGridState()
+    val scrollState = rememberScrollState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -49,16 +52,29 @@ fun ExploreScreen(
             navigationBar()
         }
     ) { innerPadding ->
-        // todo
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = "Explore Screen"
+        if (uiState.isLoading) {
+            LoadingView(
+                modifier = Modifier.padding(innerPadding)
+            )
+        } else {
+            ExploreContentView(
+                modifier = Modifier.padding(innerPadding),
+                scrollState = scrollState,
+                uiState = uiState,
             )
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+fun ExploreScreenPreview(
+    @PreviewParameter(ExploreUiStatePreviewParameterProvider::class) uiState: ExploreUiState
+) {
+    MovieManiaTheme {
+        ExploreScreen(
+            uiState = uiState,
+            onAction = {}
+        )
     }
 }

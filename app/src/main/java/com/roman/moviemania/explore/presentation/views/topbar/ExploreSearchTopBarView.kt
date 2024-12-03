@@ -13,10 +13,6 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.roman.moviemania.R
@@ -30,8 +26,6 @@ fun ExploreSearchTopBarView(
     onAction: (ExploreAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var expanded by remember { mutableStateOf(false) }
-
     SearchBar(
         modifier = modifier
             .fillMaxWidth(),
@@ -41,9 +35,13 @@ fun ExploreSearchTopBarView(
                 onQueryChange = {
                     onAction(ExploreAction.OnSearchQueryChange(it))
                 },
-                onSearch = { expanded = false },
-                expanded = true,
-                onExpandedChange = { expanded = it },
+                onSearch = {
+                    onAction(ExploreAction.OnSearchExpanded(false))
+                },
+                expanded = uiState.expendedSearch,
+                onExpandedChange = {
+                    onAction(ExploreAction.OnSearchExpanded(it))
+                },
                 placeholder = {
                     Text(stringResource(R.string.top_bar_search))
                 },
@@ -74,7 +72,7 @@ fun ExploreSearchTopBarView(
             )
         },
         onExpandedChange = {},
-        expanded = expanded
+        expanded = uiState.expendedSearch
     ) {
 
     }

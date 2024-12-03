@@ -12,4 +12,5 @@ sealed interface ExploreAction {
     data object OnSearchFabClick : ExploreAction
     data object OnHideSearchBar : ExploreAction
     data class OnSearchQueryChange(val query: String) : ExploreAction
+    data class OnSearchExpanded(val expanded: Boolean) : ExploreAction
 }

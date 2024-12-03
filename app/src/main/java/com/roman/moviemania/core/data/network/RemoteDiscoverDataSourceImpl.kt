@@ -38,4 +38,44 @@ class RemoteDiscoverDataSourceImpl(
         }
     }
 
+    override suspend fun getNowPlaying(): Result<DiscoverResponseDto, DataError.Network> {
+        Log.d(TAG, "getNowPlaying")
+
+        return safeCall<DiscoverResponseDto> {
+            httpClient.get(
+                urlString = constructUrl("/3/movie/now_playing")
+            )
+        }
+    }
+
+    override suspend fun getPopular(): Result<DiscoverResponseDto, DataError.Network> {
+        Log.d(TAG, "getPopular")
+
+        return safeCall<DiscoverResponseDto> {
+            httpClient.get(
+                urlString = constructUrl("/3/movie/popular")
+            )
+        }
+    }
+
+    override suspend fun getTopRated(): Result<DiscoverResponseDto, DataError.Network> {
+        Log.d(TAG, "getTopRated")
+
+        return safeCall<DiscoverResponseDto> {
+            httpClient.get(
+                urlString = constructUrl("/3/movie/top_rated")
+            )
+        }
+    }
+
+    override suspend fun getUpcoming(): Result<DiscoverResponseDto, DataError.Network> {
+        Log.d(TAG, "getUpcoming")
+
+        return safeCall<DiscoverResponseDto> {
+            httpClient.get(
+                urlString = constructUrl("/3/movie/upcoming")
+            )
+        }
+    }
+
 }

@@ -7,10 +7,28 @@ import com.roman.moviemania.core.domain.utils.DataError
 import com.roman.moviemania.core.domain.utils.Result
 
 interface DiscoverRepository {
+
     suspend fun getDiscoverMovieByGenre(
         imageConfiguration: ImageConfiguration?,
         page: Int,
         genreId: Int,
         sort: DiscoverSortOptions = DiscoverSortOptions.REVENUE
     ): Result<List<Movie>, DataError.Network>
+
+    suspend fun getNowPlaying(
+        imageConfiguration: ImageConfiguration?,
+    ): Result<List<Movie>, DataError.Network>
+
+    suspend fun getPopular(
+        imageConfiguration: ImageConfiguration?,
+    ): Result<List<Movie>, DataError.Network>
+
+    suspend fun getTopRated(
+        imageConfiguration: ImageConfiguration?,
+    ): Result<List<Movie>, DataError.Network>
+
+    suspend fun getUpcoming(
+        imageConfiguration: ImageConfiguration?,
+    ): Result<List<Movie>, DataError.Network>
+
 }

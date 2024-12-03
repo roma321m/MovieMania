@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">MovieMania</string>
     <!--  Explore Screen  -->
-    <string name="explore_top_bar_title">Movie Mania: Explore</string>
+    <string name="explore_top_bar_title">Movie Mania</string>
     <string name="explore_nav_bar_title">Explore</string>
+    <string name="explore_now_playing_title">Now Playing</string>
+    <string name="explore_popular_title">Popular</string>
+    <string name="explore_top_rated_title">Top Rated</string>
+    <string name="explore_upcoming_title">Upcoming</string>
 
     <!--  Genre Screen  -->
-    <string name="genre_top_bar_title">Movie Mania: Genres</string>
+    <string name="genre_top_bar_title">Movie Mania</string>
     <string name="genre_nav_bar_title">Genres</string>
     <string name="genre_fab_search">Search</string>
 

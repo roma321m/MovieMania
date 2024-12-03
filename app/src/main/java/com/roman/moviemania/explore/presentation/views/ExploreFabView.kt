@@ -1,6 +1,6 @@
 package com.roman.moviemania.explore.presentation.views
 
-import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.ScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -17,11 +17,11 @@ import com.roman.moviemania.R
 @Composable
 fun ExploreFabView(
     onFabClick: () -> Unit,
-    scrollState: LazyGridState,
+    scrollState: ScrollState,
     modifier: Modifier = Modifier
 ) {
     val expanded by remember {
-        derivedStateOf { scrollState.firstVisibleItemIndex == 0 }
+        derivedStateOf { scrollState.value == 0 }
     }
 
     ExtendedFloatingActionButton(
