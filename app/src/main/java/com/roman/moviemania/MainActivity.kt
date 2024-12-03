@@ -6,8 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.roman.moviemania.app.navigation.AppNavigation
 import com.roman.moviemania.app.navigation.Navigator
 import com.roman.moviemania.app.presentation.AppAction
@@ -40,13 +42,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MovieManiaTheme {
+                val uiState by appViewModel.uiState.collectAsStateWithLifecycle()
+
                 AppNavigation(
                     modifier = Modifier.fillMaxSize(),
                     navigator = navigator,
                 ) {
                     BottomBarView(
                         items = appViewModel.bottomNavBarItems,
-                        selectedItemIndex = appViewModel.currentScreenIndex,
+                        selectedItemIndex = uiState.currentScreenIndex,
                         onNavItemClick = {
                             appViewModel.onAction(AppAction.OnBottomNavItemClick(it))
                         },

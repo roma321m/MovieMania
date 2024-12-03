@@ -18,14 +18,21 @@ class ConfigurationRepositoryImpl(
         private const val TAG = "ConfigurationRepository"
     }
 
+    override var cachedImageConfiguration: ImageConfiguration? = null
+
     override suspend fun getImageConfiguration(): Result<ImageConfiguration, DataError.Network> {
         Log.d(TAG, "getConfigurationDetails")
 
-        return remoteConfigurationDataSource
+        val result = remoteConfigurationDataSource
             .getConfigDetails()
             .map { responseDto ->
                 responseDto.images.toImageConfiguration()
             }
+        if (result is Result.Success) {
+            cachedImageConfiguration = result.data
+        }
+
+        return result
     }
 
 }
