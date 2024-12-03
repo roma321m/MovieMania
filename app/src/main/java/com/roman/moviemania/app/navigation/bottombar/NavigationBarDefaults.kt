@@ -14,13 +14,13 @@ object NavigationBarDefaults {
     val items = listOf(
         BottomBarItemModel(
             route = Route.Explore,
-            title = R.string.explore_title,
+            title = R.string.explore_nav_bar_title,
             selectedIcon = Icons.Filled.Explore,
             unselectedIcon = Icons.Outlined.Explore,
         ),
         BottomBarItemModel(
             route = Route.Genre,
-            title = R.string.genre_top_bar_title,
+            title = R.string.genre_nav_bar_title,
             selectedIcon = Icons.Filled.Category,
             unselectedIcon = Icons.Outlined.Category,
         ),
