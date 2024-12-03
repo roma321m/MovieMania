@@ -50,6 +50,8 @@ class GenreViewModel(
     val events = _events.receiveAsFlow()
 
     private var imageConfiguration: ImageConfiguration? = configRepository.cachedImageConfiguration
+    private var page = 1
+    private var loadingNextPage = false
 
     fun onLifecycleEvent(event: Lifecycle.Event) {
         Log.d(TAG, "onLifecycleEvent: ${event.name}")
@@ -71,6 +73,7 @@ class GenreViewModel(
             GenreAction.OnAboutClicked -> onAboutClick()
             is GenreAction.OnSortActionClick -> onSortActionClick(action.expanded)
             is GenreAction.OnSortOptionClick -> onSortOptionClick(action.sort)
+            GenreAction.OnScrollEnding -> onScrollEnding()
         }
     }
 
@@ -183,25 +186,69 @@ class GenreViewModel(
             return
         }
 
+        loadingNextPage = true
+        page = 1
+
         viewModelScope.launch(Dispatchers.IO) {
             discoverRepository
                 .getDiscoverMovieByGenre(
                     imageConfiguration = imageConfiguration,
-                    page = 1, // fixme - add pagination
+                    page = page,
                     genreId = genre.id,
                     sort = _uiState.value.sortBy
-                ).onSuccess { movies ->
+                )
+                .onSuccess { movies ->
                     Log.d(TAG, "loadMovies: $movies")
                     _uiState.update { state ->
-                        state.copy(movies = movies)
+                        state.copy(movies = movies.distinctBy { it.id })
                     }
+                    loadingNextPage = false
                 }
                 .onError { error ->
                     Log.e(TAG, "loadMovies: $error")
                     _events.send(GenreEvents.Error(error))
+                    loadingNextPage = false
                 }
         }
     }
+
+    private fun onScrollEnding() {
+        Log.d(TAG, "onScrollEnding")
+        if (loadingNextPage) return
+
+        loadingNextPage = true
+        page++
+        loadMoreMovies()
+    }
+
+    private fun loadMoreMovies() = viewModelScope.launch(Dispatchers.IO) {
+        Log.d(TAG, "loadMoreMovies")
+        val genreId = _uiState.value.selectedGenre?.id ?: return@launch
+
+        discoverRepository
+            .getDiscoverMovieByGenre(
+                imageConfiguration = imageConfiguration,
+                page = page,
+                genreId = genreId,
+                sort = _uiState.value.sortBy
+            )
+            .onSuccess { movies ->
+                Log.d(TAG, "loadMoreMovies: $movies")
+                _uiState.update { state ->
+                    state.copy(
+                        movies = (_uiState.value.movies + movies)
+                            .distinctBy { it.id }
+                    )
+                }
+                loadingNextPage = false
+            }
+            .onError { error ->
+                Log.e(TAG, "loadMoreMovies: $error")
+                _events.send(GenreEvents.Error(error))
+                loadingNextPage = false
+            }
+    }
+
 
     private fun loadImageConfiguration() = viewModelScope.launch(Dispatchers.IO) {
         Log.d(TAG, "loadImageConfiguration")

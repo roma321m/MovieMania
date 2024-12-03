@@ -10,6 +10,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -55,6 +59,18 @@ fun GenreGridScreen(
                 lazyGridState = lazyGridState,
                 modifier = Modifier.padding(innerPadding)
             )
+        }
+    }
+
+    val endOfListReached by remember {
+        derivedStateOf {
+            lazyGridState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == lazyGridState.layoutInfo.totalItemsCount - 3
+        }
+    }
+
+    LaunchedEffect(endOfListReached) {
+        if (endOfListReached) {
+            onAction(GenreAction.OnScrollEnding)
         }
     }
 }

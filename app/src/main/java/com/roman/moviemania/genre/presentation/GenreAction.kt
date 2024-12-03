@@ -9,6 +9,7 @@ sealed interface GenreAction {
     data object OnPrivacyPolicyClick : GenreAction
     data object OnTermsAndConditionsClick : GenreAction
     data object OnAboutClicked : GenreAction
+    data object OnScrollEnding : GenreAction
     data class OnSortActionClick(val expanded: Boolean) : GenreAction
     data class OnSortOptionClick(val sort: DiscoverSortOptions) : GenreAction
     data class OnGenreSelected(val genre: Genre) : GenreAction

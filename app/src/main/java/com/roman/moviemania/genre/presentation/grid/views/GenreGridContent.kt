@@ -10,11 +10,13 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.roman.moviemania.genre.presentation.GenreAction
 import com.roman.moviemania.genre.presentation.GenreUiState
+import kotlinx.coroutines.launch
 
 @Composable
 fun GenreGridContent(
@@ -23,6 +25,8 @@ fun GenreGridContent(
     lazyGridState: LazyGridState,
     modifier: Modifier = Modifier,
 ) {
+    val scope = rememberCoroutineScope()
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
@@ -33,6 +37,9 @@ fun GenreGridContent(
             selectedGenre = uiState.selectedGenre,
             onGenreSelected = { genre ->
                 onAction(GenreAction.OnGenreSelected(genre))
+                scope.launch {
+                    lazyGridState.animateScrollToItem(0)
+                }
             }
         )
         LazyVerticalGrid(
