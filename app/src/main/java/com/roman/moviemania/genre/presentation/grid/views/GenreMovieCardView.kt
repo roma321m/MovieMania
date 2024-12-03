@@ -1,9 +1,7 @@
 package com.roman.moviemania.genre.presentation.grid.views
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.roman.moviemania.app.ui.theme.MovieManiaTheme
@@ -60,25 +60,25 @@ fun GenreMovieCardView(
                     .align(Alignment.BottomStart)
             )
         }
-        Row(
+        Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = movie.title,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 2,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = " (${movie.releaseDate})",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-        }
+            text = buildAnnotatedString {
+                append(movie.title)
+                append(" ")
+                pushStyle(
+                    SpanStyle(
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                )
+                append("(${movie.releaseDate})")
+                pop()
+            },
+            style = MaterialTheme.typography.titleSmall,
+            maxLines = 2,
+            textAlign = TextAlign.Center
+        )
     }
 }
 
