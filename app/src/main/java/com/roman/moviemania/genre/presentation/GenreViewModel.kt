@@ -74,6 +74,15 @@ class GenreViewModel(
             is GenreAction.OnSortActionClick -> onSortActionClick(action.expanded)
             is GenreAction.OnSortOptionClick -> onSortOptionClick(action.sort)
             GenreAction.OnScrollEnding -> onScrollEnding()
+            is GenreAction.OnBarStatusChange -> onBarStatusChange(action.show)
+        }
+    }
+
+    private fun onBarStatusChange(show: Boolean) {
+        Log.d(TAG, "onBarStatusChange: $show")
+
+        _uiState.update {
+            it.copy(showBars = show)
         }
     }
 
@@ -146,10 +155,12 @@ class GenreViewModel(
         loadMovies(genre)
     }
 
-    private fun selectMovie(movie: Movie) {
+    private fun selectMovie(movie: Movie?) {
         Log.d(TAG, "selectMovie: $movie")
 
-        // todo
+        _uiState.update {
+            it.copy(selectedMovie = movie)
+        }
     }
 
     private fun loadGenres() = viewModelScope.launch(Dispatchers.IO) {

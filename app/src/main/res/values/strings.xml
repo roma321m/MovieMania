@@ -12,6 +12,12 @@
     <string name="genre_top_bar_title">Movie Mania</string>
     <string name="genre_nav_bar_title">Genres</string>
     <string name="genre_fab_search">Search</string>
+    <string name="genre_details_empty_title">Select a movie to view more info</string>
+    <string name="genre_details_title">Title:</string>
+    <string name="genre_details_overview">Overview:</string>
+    <string name="genre_details_genres">Genres:</string>
+    <string name="genre_details_release_date">Release Date:</string>
+    <string name="genre_details_adult">Classification: 18+</string>
 
     <!--  Top bar  -->
     <string name="top_bar_action_sort">Sort</string>

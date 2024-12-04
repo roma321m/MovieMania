@@ -13,5 +13,6 @@ sealed interface GenreAction {
     data class OnSortActionClick(val expanded: Boolean) : GenreAction
     data class OnSortOptionClick(val sort: DiscoverSortOptions) : GenreAction
     data class OnGenreSelected(val genre: Genre) : GenreAction
-    data class OnMovieSelected(val movie: Movie) : GenreAction
+    data class OnMovieSelected(val movie: Movie?) : GenreAction
+    data class OnBarStatusChange(val show: Boolean) : GenreAction
 }

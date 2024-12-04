@@ -1,5 +1,6 @@
 package com.roman.moviemania.genre.presentation.grid.views
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -28,12 +29,14 @@ import com.roman.moviemania.core.presentation.components.AsyncImageView
 @Composable
 fun GenreMovieCardView(
     movie: Movie,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(9f / 16f),
+            .aspectRatio(9f / 16f)
+            .clickable(onClick = onClick),
     ) {
         Box(
             modifier = Modifier
@@ -108,7 +111,8 @@ fun GenreMovieCardViewPreview() {
                     genreIds = listOf(1, 2, 3),
                     originalTitle = "Original Title 1",
                     video = false,
-                )
+                ),
+                onClick = {}
             )
         }
     }

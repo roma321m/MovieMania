@@ -59,7 +59,10 @@ fun GenreGridContent(
                 }
             ) { movie ->
                 GenreMovieCardView(
-                    movie = movie
+                    movie = movie,
+                    onClick = {
+                        onAction(GenreAction.OnMovieSelected(movie))
+                    }
                 )
             }
         }

@@ -14,9 +14,9 @@ import com.roman.moviemania.R
 import com.roman.moviemania.core.presentation.Observe
 import com.roman.moviemania.core.presentation.ObserveAsEvents
 import com.roman.moviemania.core.presentation.utils.asStringRes
+import com.roman.moviemania.genre.presentation.AdaptiveGenreGridDetailPaneView
 import com.roman.moviemania.genre.presentation.GenreEvents
 import com.roman.moviemania.genre.presentation.GenreViewModel
-import com.roman.moviemania.genre.presentation.grid.GenreGridScreen
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -55,7 +55,7 @@ fun NavGraphBuilder.genreComposable(
             }
         }
 
-        GenreGridScreen(
+        AdaptiveGenreGridDetailPaneView(
             uiState = uiState,
             onAction = viewModel::onAction,
             navigationBar = navigationBar

@@ -40,14 +40,18 @@ fun GenreGridScreen(
             .fillMaxSize()
             .nestedScroll(topBarScrollBehavior.nestedScrollConnection),
         topBar = {
-            GenreTopBarView(
-                scrollBehavior = topBarScrollBehavior,
-                uiState = uiState,
-                onAction = onAction
-            )
+            if (uiState.showBars) {
+                GenreTopBarView(
+                    scrollBehavior = topBarScrollBehavior,
+                    uiState = uiState,
+                    onAction = onAction
+                )
+            }
         },
         bottomBar = {
-            navigationBar()
+            if (uiState.showBars) {
+                navigationBar()
+            }
         }
     ) { innerPadding ->
         if (uiState.isLoading) {
@@ -57,7 +61,9 @@ fun GenreGridScreen(
                 uiState = uiState,
                 onAction = onAction,
                 lazyGridState = lazyGridState,
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
             )
         }
     }

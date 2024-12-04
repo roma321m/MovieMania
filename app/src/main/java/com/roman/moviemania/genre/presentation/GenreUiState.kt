@@ -7,6 +7,7 @@ import com.roman.moviemania.genre.domain.model.Genre
 data class GenreUiState(
     val showMoreMenu: Boolean = false,
     val showSortMenu: Boolean = false,
+    val showBars: Boolean = true,
     val isLoading: Boolean = true,
     val sortBy: DiscoverSortOptions = DiscoverSortOptions.POPULARITY,
     val genres: List<Genre> = emptyList(),
