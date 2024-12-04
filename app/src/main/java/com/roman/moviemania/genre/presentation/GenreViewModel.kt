@@ -253,7 +253,7 @@ class GenreViewModel(
     private fun loadImageConfiguration() = viewModelScope.launch(Dispatchers.IO) {
         Log.d(TAG, "loadImageConfiguration")
         configRepository
-            .getImageConfiguration()
+            .loadImageConfiguration()
             .onSuccess { config ->
                 imageConfiguration = config
             }

@@ -2,20 +2,19 @@ package com.roman.moviemania.app.presentation
 
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roman.moviemania.app.navigation.Navigator
 import com.roman.moviemania.app.navigation.bottombar.NavigationBarDefaults
+import com.roman.moviemania.app.navigation.routes.Route
 import com.roman.moviemania.core.domain.repository.ConfigurationRepository
 import com.roman.moviemania.core.domain.utils.onError
 import com.roman.moviemania.core.domain.utils.onSuccess
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AppViewModel(
@@ -28,43 +27,47 @@ class AppViewModel(
     }
 
     val bottomNavBarItems = NavigationBarDefaults.items
-    private val startScreenIndex = bottomNavBarItems.indexOfFirst {
-        it.route == navigator.startDestination // fixme - bug
-    }
 
     var isLoading by mutableStateOf(true)
         private set
 
-    private val _uiState = MutableStateFlow(AppUiState(currentScreenIndex = startScreenIndex))
-    val uiState = _uiState
-        .onStart {
-            loadImageConfiguration()
+    var currentScreenIndex by mutableIntStateOf(0)
+        private set
+
+    fun onLifecycleEvent(event: Lifecycle.Event) {
+        Log.d(TAG, "onLifecycleEvent: ${event.name}")
+
+        when (event) {
+            Lifecycle.Event.ON_CREATE -> loadImageConfiguration()
+            else -> Unit
         }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            AppUiState(currentScreenIndex = startScreenIndex)
-        )
+    }
 
     fun onAction(action: AppAction) {
         Log.d(TAG, "onAction: $action")
 
         when (action) {
             is AppAction.OnBottomNavItemClick -> onBottomNavItemClick(action.index)
-            AppAction.LoadConfig -> loadImageConfiguration()
+            is AppAction.OnNavigationChange -> onNavChange(action.route)
         }
     }
 
     private fun onBottomNavItemClick(index: Int) {
+        if (index == currentScreenIndex) return
+
         Log.d(TAG, "onBottomNavItemClick: $index")
 
         val route = bottomNavBarItems[index].route
+        currentScreenIndex = index
         viewModelScope.launch {
             navigator.navigate(route)
-        }.also {
-            _uiState.update {
-                it.copy(currentScreenIndex = index)
-            }
+        }
+    }
+
+    private fun onNavChange(route: Route) {
+        Log.d(TAG, "onNavChange: $route")
+        currentScreenIndex = bottomNavBarItems.indexOfFirst {
+            it.route == route
         }
     }
 
@@ -79,14 +82,15 @@ class AppViewModel(
         viewModelScope.launch {
             Log.d(TAG, "loadImageConfiguration: loading")
             configurationRepository
-                .getImageConfiguration()
+                .loadImageConfiguration()
                 .onSuccess { imageConfiguration ->
-                    isLoading = false
                     Log.d(TAG, "loadImageConfiguration: $imageConfiguration")
+                    delay(300)
+                    isLoading = false
                 }
                 .onError { error ->
-                    isLoading = false
                     Log.e(TAG, "loadImageConfiguration: $error")
+                    isLoading = false
                 }
         }
     }

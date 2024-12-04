@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.roman.moviemania.app.navigation.routes.Route
 import com.roman.moviemania.app.navigation.routes.exploreComposable
 import com.roman.moviemania.app.navigation.routes.genreComposable
 import com.roman.moviemania.core.presentation.ObserveAsEvents
@@ -12,6 +13,7 @@ import com.roman.moviemania.core.presentation.ObserveAsEvents
 @Composable
 fun AppNavigation(
     navigator: Navigator,
+    onNavigationChange: (Route) -> Unit,
     modifier: Modifier = Modifier,
     navigationBar: @Composable () -> Unit = {},
 ) {
@@ -31,8 +33,8 @@ fun AppNavigation(
         navController = navController,
         startDestination = navigator.startDestination,
     ) {
-        exploreComposable(navigationBar)
-        genreComposable(navigationBar)
+        exploreComposable(navigationBar, onNavigationChange)
+        genreComposable(navigationBar, onNavigationChange)
     }
 
 }

@@ -171,8 +171,9 @@ class ExploreViewModel(
     private fun loadImageConfiguration() = viewModelScope.launch(Dispatchers.IO) {
         Log.d(TAG, "loadImageConfiguration")
         configRepository
-            .getImageConfiguration()
+            .loadImageConfiguration()
             .onSuccess { config ->
+                Log.d(TAG, "loadImageConfiguration: $config")
                 imageConfiguration = config
                 loadMovies()
             }

@@ -6,15 +6,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.roman.moviemania.app.navigation.AppNavigation
 import com.roman.moviemania.app.navigation.Navigator
 import com.roman.moviemania.app.presentation.AppAction
 import com.roman.moviemania.app.presentation.AppViewModel
 import com.roman.moviemania.app.ui.theme.MovieManiaTheme
+import com.roman.moviemania.core.presentation.Observe
 import com.roman.moviemania.core.presentation.components.bottombar.BottomBarView
 import org.koin.android.ext.android.inject
 
@@ -41,16 +41,19 @@ class MainActivity : ComponentActivity() {
             }
 
         setContent {
-            MovieManiaTheme {
-                val uiState by appViewModel.uiState.collectAsStateWithLifecycle()
+            LocalLifecycleOwner.current.lifecycle.Observe(appViewModel::onLifecycleEvent)
 
+            MovieManiaTheme {
                 AppNavigation(
                     modifier = Modifier.fillMaxSize(),
                     navigator = navigator,
+                    onNavigationChange = {
+                        appViewModel.onAction(AppAction.OnNavigationChange(it))
+                    },
                 ) {
                     BottomBarView(
                         items = appViewModel.bottomNavBarItems,
-                        selectedItemIndex = uiState.currentScreenIndex,
+                        selectedItemIndex = appViewModel.currentScreenIndex,
                         onNavItemClick = {
                             appViewModel.onAction(AppAction.OnBottomNavItemClick(it))
                         },

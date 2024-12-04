@@ -20,7 +20,7 @@ class ConfigurationRepositoryImpl(
 
     override var cachedImageConfiguration: ImageConfiguration? = null
 
-    override suspend fun getImageConfiguration(): Result<ImageConfiguration, DataError.Network> {
+    override suspend fun loadImageConfiguration(): Result<ImageConfiguration, DataError.Network> {
         Log.d(TAG, "getConfigurationDetails")
 
         val result = remoteConfigurationDataSource

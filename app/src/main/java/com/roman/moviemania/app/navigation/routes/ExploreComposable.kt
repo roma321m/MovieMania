@@ -2,12 +2,14 @@ package com.roman.moviemania.app.navigation.routes
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.roman.moviemania.R
 import com.roman.moviemania.core.presentation.Observe
 import com.roman.moviemania.core.presentation.ObserveAsEvents
@@ -19,7 +21,8 @@ import org.koin.androidx.compose.koinViewModel
 
 
 fun NavGraphBuilder.exploreComposable(
-    navigationBar: @Composable () -> Unit
+    navigationBar: @Composable () -> Unit,
+    onNavigationChange: (Route) -> Unit
 ) {
     composable<Route.Explore> {
         val context = LocalContext.current
@@ -27,6 +30,10 @@ fun NavGraphBuilder.exploreComposable(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         LocalLifecycleOwner.current.lifecycle.Observe(viewModel::onLifecycleEvent)
+
+        LaunchedEffect(Unit) {
+            onNavigationChange(it.toRoute<Route.Explore>())
+        }
 
         ObserveAsEvents(viewModel.events) { event ->
             when (event) {
