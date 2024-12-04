@@ -13,7 +13,7 @@ import androidx.navigation.toRoute
 import com.roman.moviemania.R
 import com.roman.moviemania.core.presentation.Observe
 import com.roman.moviemania.core.presentation.ObserveAsEvents
-import com.roman.moviemania.core.presentation.utils.asUiText
+import com.roman.moviemania.core.presentation.utils.asStringRes
 import com.roman.moviemania.genre.presentation.GenreEvents
 import com.roman.moviemania.genre.presentation.GenreViewModel
 import com.roman.moviemania.genre.presentation.grid.GenreGridScreen
@@ -40,7 +40,7 @@ fun NavGraphBuilder.genreComposable(
                 is GenreEvents.Error -> {
                     Toast.makeText(
                         context,
-                        event.error.asUiText().asString(context),
+                        event.error.asStringRes(),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

@@ -3,8 +3,8 @@ package com.roman.moviemania.core.presentation.utils
 import com.roman.moviemania.R
 import com.roman.moviemania.core.domain.utils.DataError
 
-fun DataError.asUiText(): UiText {
-    val resourceId = when (this) {
+fun DataError.asStringRes(): Int {
+    return when (this) {
         DataError.Local.NO_STORAGE_ACCESS -> R.string.error_no_storage_access
         DataError.Local.NO_STORAGE_SPACE -> R.string.error_no_storage_space
         DataError.Local.UNKNOWN -> R.string.error_unknown
@@ -16,5 +16,4 @@ fun DataError.asUiText(): UiText {
         DataError.Network.SERIALIZATION,
         DataError.Network.UNKNOWN -> R.string.error_unknown
     }
-    return UiText.StringResource(resourceId)
 }
