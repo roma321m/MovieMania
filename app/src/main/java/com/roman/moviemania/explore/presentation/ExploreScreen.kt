@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.roman.moviemania.app.ui.previews.ExploreUiStatePreviewParameterProvider
@@ -30,7 +31,9 @@ fun ExploreScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(topBarScrollBehavior.nestedScrollConnection),
         topBar = {
             ExploreTopBarView(
                 uiState = uiState,
