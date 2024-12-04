@@ -67,13 +67,15 @@ fun GenreMovieCardView(
                 .padding(8.dp),
             text = buildAnnotatedString {
                 append(movie.title)
-                append(" ")
-                pushStyle(
-                    SpanStyle(
-                        color = MaterialTheme.colorScheme.secondary
+                if (movie.releaseDate.isNotBlank()) {
+                    append(" ")
+                    pushStyle(
+                        SpanStyle(
+                            color = MaterialTheme.colorScheme.secondary
+                        )
                     )
-                )
-                append("(${movie.releaseDate})")
+                    append("(${movie.releaseDate})")
+                }
                 pop()
             },
             style = MaterialTheme.typography.titleSmall,
