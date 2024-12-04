@@ -2,9 +2,9 @@ package com.roman.moviemania.core.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,8 +50,10 @@ fun AsyncImageView(
         )
 
         when (val result = imageLoadResult) {
-            null -> CircularProgressIndicator(
-                color = MaterialTheme.colorScheme.primary
+            null -> PulseAnimationView(
+                Modifier
+                    .fillMaxWidth(0.5f)
+                    .aspectRatio(1f)
             )
 
             else -> {
