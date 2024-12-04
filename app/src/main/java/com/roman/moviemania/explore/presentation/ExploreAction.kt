@@ -8,7 +8,6 @@ sealed interface ExploreAction {
     data object OnAboutClicked : ExploreAction
 
     // top bar - search
-    data object OnSearch : ExploreAction
     data object OnSearchFabClick : ExploreAction
     data object OnHideSearchBar : ExploreAction
     data class OnSearchQueryChange(val query: String) : ExploreAction

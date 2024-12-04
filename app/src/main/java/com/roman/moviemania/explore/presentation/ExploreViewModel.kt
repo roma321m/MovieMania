@@ -1,3 +1,5 @@
+@file:OptIn(FlowPreview::class)
+
 package com.roman.moviemania.explore.presentation
 
 import android.util.Log
@@ -6,14 +8,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roman.moviemania.app.launcher.ActivityLauncher
 import com.roman.moviemania.core.domain.model.ImageConfiguration
+import com.roman.moviemania.core.domain.model.Movie
 import com.roman.moviemania.core.domain.repository.ConfigurationRepository
 import com.roman.moviemania.core.domain.repository.DiscoverRepository
 import com.roman.moviemania.core.domain.utils.onError
 import com.roman.moviemania.core.domain.utils.onSuccess
+import com.roman.moviemania.explore.domain.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -23,6 +34,7 @@ import kotlinx.coroutines.launch
 class ExploreViewModel(
     private val discoverRepository: DiscoverRepository,
     private val configRepository: ConfigurationRepository,
+    private val searchRepository: SearchRepository,
     private val activityLauncher: ActivityLauncher
 ) : ViewModel() {
 
@@ -35,17 +47,22 @@ class ExploreViewModel(
     private val _uiState = MutableStateFlow(ExploreUiState())
     val uiState = _uiState
         .onStart {
+            if (cachedSearchMovies.isEmpty()) {
+                observeSearch()
+            }
             onStart()
         }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            ExploreUiState()
+            _uiState.value
         )
 
     private val _events = Channel<ExploreEvents>()
     val events = _events.receiveAsFlow()
 
+    private var cachedSearchMovies: List<Movie> = emptyList()
+    private var searchJob: Job? = null
 
     fun onLifecycleEvent(event: Lifecycle.Event) {
         Log.d(TAG, "onLifecycleEvent: ${event.name}")
@@ -65,10 +82,53 @@ class ExploreViewModel(
             ExploreAction.OnPrivacyPolicyClick -> onPrivacyPolicyClick()
             ExploreAction.OnTermsAndConditionsClick -> onTermsClick()
             ExploreAction.OnHideSearchBar -> onHideSearch()
-            ExploreAction.OnSearch -> onSearch()
             is ExploreAction.OnSearchQueryChange -> onSearchQueryChange(action.query)
             is ExploreAction.OnSearchExpanded -> onSearchExpanded(action.expanded)
         }
+    }
+
+    private fun observeSearch() {
+        Log.d(TAG, "observeSearch")
+        _uiState
+            .map { it.searchQuery }
+            .distinctUntilChanged()
+            .debounce(500L)
+            .onEach { query ->
+                when {
+                    query.isBlank() -> {
+                        _uiState.update {
+                            it.copy(
+                                searchResults = cachedSearchMovies
+                            )
+                        }
+                    }
+
+                    query.length >= 2 -> {
+                        searchJob?.cancel()
+                        searchJob = searchMovies(query)
+                    }
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun searchMovies(query: String) = viewModelScope.launch(Dispatchers.IO) {
+        Log.d(TAG, "searchMovies: $query")
+
+        searchRepository
+            .getMoviesWithQuery(imageConfiguration, query)
+            .onSuccess { movies ->
+                Log.e(TAG, "searchMovies: $movies")
+                _uiState.update {
+                    it.copy(
+                        searchResults = movies
+                    )
+                }
+            }
+            .onError { error ->
+                Log.e(TAG, "searchMovies: $error")
+                _events.send(ExploreEvents.Error(error))
+            }
     }
 
     private fun onSearchQueryChange(query: String) {
@@ -88,11 +148,6 @@ class ExploreViewModel(
                 expendedSearch = false,
             )
         }
-    }
-
-    private fun onSearch() {
-        Log.d(TAG, "onSearch")
-        // todo
     }
 
     private fun onSearchExpanded(expanded: Boolean) {

@@ -14,6 +14,10 @@ import com.roman.moviemania.core.data.repository.ConfigurationRepositoryImpl
 import com.roman.moviemania.core.data.repository.DiscoverRepositoryImpl
 import com.roman.moviemania.core.domain.repository.ConfigurationRepository
 import com.roman.moviemania.core.domain.repository.DiscoverRepository
+import com.roman.moviemania.explore.data.network.RemoteSearchDataSource
+import com.roman.moviemania.explore.data.network.RemoteSearchDataSourceImpl
+import com.roman.moviemania.explore.data.repository.SearchRepositoryImpl
+import com.roman.moviemania.explore.domain.repository.SearchRepository
 import com.roman.moviemania.explore.presentation.ExploreViewModel
 import com.roman.moviemania.genre.data.network.RemoteGenreDataSource
 import com.roman.moviemania.genre.data.network.RemoteGenreDataSourceImpl
@@ -34,10 +38,12 @@ val appModule = module {
     singleOf(::RemoteGenreDataSourceImpl).bind<RemoteGenreDataSource>()
     singleOf(::RemoteConfigurationDataSourceImpl).bind<RemoteConfigurationDataSource>()
     singleOf(::RemoteDiscoverDataSourceImpl).bind<RemoteDiscoverDataSource>()
+    singleOf(::RemoteSearchDataSourceImpl).bind<RemoteSearchDataSource>()
 
     singleOf(::GenreRepositoryImpl).bind<GenreRepository>()
     singleOf(::ConfigurationRepositoryImpl).bind<ConfigurationRepository>()
     singleOf(::DiscoverRepositoryImpl).bind<DiscoverRepository>()
+    singleOf(::SearchRepositoryImpl).bind<SearchRepository>()
 
     viewModelOf(::GenreViewModel)
     viewModelOf(::ExploreViewModel)

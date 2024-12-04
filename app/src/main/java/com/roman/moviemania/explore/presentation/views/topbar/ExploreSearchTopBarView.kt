@@ -2,6 +2,7 @@
 
 package com.roman.moviemania.explore.presentation.views.topbar
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -14,10 +15,12 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import com.roman.moviemania.R
 import com.roman.moviemania.explore.presentation.ExploreAction
 import com.roman.moviemania.explore.presentation.ExploreUiState
+import com.roman.moviemania.explore.presentation.views.ExploreSearchBarContentView
 
 
 @Composable
@@ -26,6 +29,8 @@ fun ExploreSearchTopBarView(
     onAction: (ExploreAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     SearchBar(
         modifier = modifier
             .fillMaxWidth(),
@@ -36,7 +41,7 @@ fun ExploreSearchTopBarView(
                     onAction(ExploreAction.OnSearchQueryChange(it))
                 },
                 onSearch = {
-                    onAction(ExploreAction.OnSearchExpanded(false))
+                    keyboardController?.hide()
                 },
                 expanded = uiState.expendedSearch,
                 onExpandedChange = {
@@ -48,7 +53,7 @@ fun ExploreSearchTopBarView(
                 leadingIcon = {
                     IconButton(
                         onClick = {
-                            onAction(ExploreAction.OnSearch)
+                            keyboardController?.hide()
                         }
                     ) {
                         Icon(
@@ -60,6 +65,7 @@ fun ExploreSearchTopBarView(
                 trailingIcon = {
                     IconButton(
                         onClick = {
+                            onAction(ExploreAction.OnSearchQueryChange(""))
                             onAction(ExploreAction.OnHideSearchBar)
                         }
                     ) {
@@ -71,9 +77,14 @@ fun ExploreSearchTopBarView(
                 },
             )
         },
-        onExpandedChange = {},
+        onExpandedChange = {
+            onAction(ExploreAction.OnSearchExpanded(it))
+        },
         expanded = uiState.expendedSearch
     ) {
-
+        ExploreSearchBarContentView(
+            list = uiState.searchResults,
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
