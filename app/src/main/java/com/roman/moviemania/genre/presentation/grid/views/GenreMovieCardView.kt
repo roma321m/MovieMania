@@ -78,8 +78,8 @@ fun GenreMovieCardView(
                         )
                     )
                     append("(${movie.releaseDate})")
+                    pop()
                 }
-                pop()
             },
             style = MaterialTheme.typography.titleSmall,
             maxLines = 2,
