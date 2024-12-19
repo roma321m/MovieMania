@@ -25,6 +25,8 @@ import com.roman.moviemania.genre.data.repository.GenreRepositoryImpl
 import com.roman.moviemania.genre.domain.repository.GenreRepository
 import com.roman.moviemania.genre.presentation.GenreViewModel
 import io.ktor.client.engine.cio.CIO
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.createdAtStart
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -41,7 +43,10 @@ val appModule = module {
     singleOf(::RemoteSearchDataSourceImpl).bind<RemoteSearchDataSource>()
 
     singleOf(::GenreRepositoryImpl).bind<GenreRepository>()
-    singleOf(::ConfigurationRepositoryImpl).bind<ConfigurationRepository>()
+    singleOf(::ConfigurationRepositoryImpl) {
+        bind<ConfigurationRepository>()
+        createdAtStart()
+    }
     singleOf(::DiscoverRepositoryImpl).bind<DiscoverRepository>()
     singleOf(::SearchRepositoryImpl).bind<SearchRepository>()
 

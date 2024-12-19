@@ -58,9 +58,19 @@ class AppViewModel(
         Log.d(TAG, "onBottomNavItemClick: $index")
 
         val route = bottomNavBarItems[index].route
+        val popUpTo = when (route) {
+            Route.Explore -> Route.Genre
+            Route.Genre -> Route.Explore
+        }
         currentScreenIndex = index
         viewModelScope.launch {
-            navigator.navigate(route)
+            navigator.navigate(route) {
+                popUpTo(popUpTo) {
+                    inclusive = true
+                    saveState = true
+                }
+                restoreState = true
+            }
         }
     }
 
