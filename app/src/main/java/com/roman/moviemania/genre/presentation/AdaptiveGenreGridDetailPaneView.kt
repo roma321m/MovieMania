@@ -11,9 +11,11 @@ import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneSca
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.roman.moviemania.genre.presentation.details.GenreDetailsScreen
 import com.roman.moviemania.genre.presentation.grid.GenreGridScreen
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
@@ -23,6 +25,7 @@ fun AdaptiveGenreGridDetailPaneView(
     navigationBar: @Composable () -> Unit,
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(navigator.scaffoldValue.primary, navigator.scaffoldValue.secondary) {
         if (navigator.scaffoldValue.secondary == PaneAdaptedValue.Hidden ||
@@ -48,9 +51,11 @@ fun AdaptiveGenreGridDetailPaneView(
                         onAction(action)
                         when (action) {
                             is GenreAction.OnMovieSelected -> {
-                                navigator.navigateTo(
-                                    pane = ListDetailPaneScaffoldRole.Detail
-                                )
+                                scope.launch {
+                                    navigator.navigateTo(
+                                        pane = ListDetailPaneScaffoldRole.Detail
+                                    )
+                                }
                             }
 
                             else -> Unit
